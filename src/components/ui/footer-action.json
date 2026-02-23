@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_ui_footer_actions",
+  "info": {
+    "displayName": "Footer Action"
+  },
+  "options": {},
+  "attributes": {
+    "promptText": {
+      "type": "string"
+    },
+    "actionLabel": {
+      "type": "string"
+    },
+    "actionTargetRoute": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

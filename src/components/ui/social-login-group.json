@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_ui_social_login_groups",
+  "info": {
+    "displayName": "Social Login Group"
+  },
+  "options": {},
+  "attributes": {
+    "dividerText": {
+      "type": "string"
+    },
+    "enableGoogle": {
+      "type": "boolean",
+      "default": true
+    },
+    "enableApple": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "config": {}
+}
