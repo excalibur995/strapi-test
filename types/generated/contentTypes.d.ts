@@ -467,155 +467,273 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiAuthSettingAuthSetting extends Struct.SingleTypeSchema {
-  collectionName: 'auth_settings';
+export interface ApiAppGlobalConfigAppGlobalConfig
+  extends Struct.SingleTypeSchema {
+  collectionName: 'app_global_configs';
   info: {
-    displayName: 'Auth Setting';
-    pluralName: 'auth-settings';
-    singularName: 'auth-setting';
+    displayName: 'App Global Config';
+    pluralName: 'app-global-configs';
+    singularName: 'app-global-config';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   pluginOptions: {
     i18n: {
-      localized: true;
+      localized: false;
     };
   };
   attributes: {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
+    defaultChannel: Schema.Attribute.Enumeration<['NGA', 'WEB']> &
+      Schema.Attribute.DefaultTo<'NGA'>;
+    defaultLocale: Schema.Attribute.String & Schema.Attribute.DefaultTo<'en'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::auth-setting.auth-setting'
-    >;
-    lock_duration: Schema.Attribute.Integer &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }> &
-      Schema.Attribute.DefaultTo<30>;
-    max_login_attemps: Schema.Attribute.Integer &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }> &
-      Schema.Attribute.SetMinMax<
-        {
-          max: 5;
-        },
-        number
-      >;
+      'api::app-global-config.app-global-config'
+    > &
+      Schema.Attribute.Private;
+    minSupportedAppVersion: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    requireMFA: Schema.Attribute.Boolean &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }> &
-      Schema.Attribute.DefaultTo<false>;
+    sduiPayloadVersion: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    validation_rules: Schema.Attribute.JSON &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
   };
 }
 
-export interface ApiGlobalThemeGlobalTheme extends Struct.SingleTypeSchema {
-  collectionName: 'global_themes';
+export interface ApiJourneyDefinitionJourneyDefinition
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'journey_definitions';
   info: {
-    displayName: 'Global Theme';
-    pluralName: 'global-themes';
-    singularName: 'global-theme';
+    displayName: 'Journey Definition';
+    pluralName: 'journey-definitions';
+    singularName: 'journey-definition';
   };
   options: {
     draftAndPublish: true;
   };
+  attributes: {
+    channel: Schema.Attribute.Enumeration<['NGA', 'WEB']> &
+      Schema.Attribute.DefaultTo<'NGA'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    joruney_status: Schema.Attribute.Enumeration<
+      ['draft', 'active', 'archived']
+    > &
+      Schema.Attribute.DefaultTo<'draft'>;
+    journeyKey: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::journey-definition.journey-definition'
+    > &
+      Schema.Attribute.Private;
+    markets: Schema.Attribute.Relation<'manyToMany', 'api::market.market'>;
+    maxAppVersion: Schema.Attribute.String;
+    minAppVersion: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    steps: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::journey-step.journey-step'
+    >;
+    submissionContract: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::submission-contract.submission-contract'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    version: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ApiJourneyScreenJourneyScreen
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'journey_screens';
+  info: {
+    displayName: 'Journey Screen';
+    pluralName: 'journey-screens';
+    singularName: 'journey-screen';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    journey_definition: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::journey-definition.journey-definition'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::journey-screen.journey-screen'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    screens: Schema.Attribute.JSON & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiJourneySessionJourneySession
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'journey_sessions';
+  info: {
+    displayName: 'Journey Session';
+    pluralName: 'journey-sessions';
+    singularName: 'journey-session';
+  };
+  options: {
+    draftAndPublish: false;
+  };
   pluginOptions: {
     i18n: {
-      localized: true;
+      localized: false;
     };
   };
   attributes: {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
+    currentScreenKey: Schema.Attribute.String;
+    expiresAt: Schema.Attribute.DateTime;
+    journey: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::journey-definition.journey-definition'
+    >;
+    journeyKey: Schema.Attribute.String & Schema.Attribute.Required;
+    journeyState: Schema.Attribute.JSON;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::global-theme.global-theme'
-    >;
+      'api::journey-session.journey-session'
+    > &
+      Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    theme_tokens: Schema.Attribute.JSON &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
+    sessionId: Schema.Attribute.UID &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    startedAt: Schema.Attribute.DateTime;
+    status: Schema.Attribute.Enumeration<['active', 'completed', 'abandoned']> &
+      Schema.Attribute.DefaultTo<'active'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    userId: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ApiJourneyStepJourneyStep extends Struct.CollectionTypeSchema {
+  collectionName: 'journey_steps';
+  info: {
+    displayName: 'Journey Step';
+    pluralName: 'journey-steps';
+    singularName: 'journey-step';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    analyticsTag: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    headerTitle: Schema.Attribute.String;
+    headerVariant: Schema.Attribute.Enumeration<
+      ['default', 'transparent', 'none']
+    > &
+      Schema.Attribute.DefaultTo<'default'>;
+    journey: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::journey-definition.journey-definition'
+    >;
+    journey_screen: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::journey-screen.journey-screen'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::journey-step.journey-step'
+    > &
+      Schema.Attribute.Private;
+    nextStepRule: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::rule-set.rule-set'
+    >;
+    order: Schema.Attribute.Integer & Schema.Attribute.Required;
+    progressCurrent: Schema.Attribute.Integer;
+    progressTotal: Schema.Attribute.Integer;
+    publishedAt: Schema.Attribute.DateTime;
+    screen: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::sdui-screen.sdui-screen'
+    >;
+    showBack: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    showClose: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
   };
 }
 
-export interface ApiScreenV2ScreenV2 extends Struct.CollectionTypeSchema {
-  collectionName: 'screen_v2s';
+export interface ApiMarketMarket extends Struct.CollectionTypeSchema {
+  collectionName: 'markets';
   info: {
-    displayName: 'Screen_V2';
-    pluralName: 'screen-v2s';
-    singularName: 'screen-v2';
+    displayName: 'Market';
+    pluralName: 'markets';
+    singularName: 'market';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: false;
+    };
   };
   attributes: {
-    analyticsScreenName: Schema.Attribute.String;
+    code: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    flowCategory: Schema.Attribute.Enumeration<
-      ['authentication', 'onboarding', 'main_app']
-    >;
+    currency: Schema.Attribute.String & Schema.Attribute.Required;
     isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::screen-v2.screen-v2'
+      'api::market.market'
     > &
       Schema.Attribute.Private;
-    pageBlocks: Schema.Attribute.DynamicZone<
-      [
-        'ui.social-login-group',
-        'ui.illustration-header',
-        'ui.footer-action',
-        'ui.authentication-form',
-      ]
-    >;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    screen_id: Schema.Attribute.UID;
-    title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    version: Schema.Attribute.String;
   };
 }
 
-export interface ApiScreenScreen extends Struct.CollectionTypeSchema {
-  collectionName: 'screens';
+export interface ApiRuleSetRuleSet extends Struct.CollectionTypeSchema {
+  collectionName: 'rule_sets';
   info: {
-    displayName: 'Screen';
-    pluralName: 'screens';
-    singularName: 'screen';
+    displayName: 'Rule Set';
+    pluralName: 'rule-sets';
+    singularName: 'rule-set';
   };
   options: {
     draftAndPublish: true;
@@ -626,39 +744,29 @@ export interface ApiScreenScreen extends Struct.CollectionTypeSchema {
     };
   };
   attributes: {
-    config: Schema.Attribute.JSON &
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::rule-set.rule-set'
+    >;
+    logic: Schema.Attribute.JSON &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    description: Schema.Attribute.Blocks &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    is_active: Schema.Attribute.Boolean &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }> &
-      Schema.Attribute.DefaultTo<true>;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::screen.screen'>;
-    metadata: Schema.Attribute.JSON &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
     publishedAt: Schema.Attribute.DateTime;
-    screen_id: Schema.Attribute.String &
+    ruleKey: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique &
       Schema.Attribute.SetPluginOptions<{
@@ -666,28 +774,188 @@ export interface ApiScreenScreen extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
-    theme: Schema.Attribute.JSON &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    title: Schema.Attribute.String &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    version: Schema.Attribute.String &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }> &
-      Schema.Attribute.DefaultTo<'1.0.0'>;
+  };
+}
+
+export interface ApiSduiComponentManifestSduiComponentManifest
+  extends Struct.SingleTypeSchema {
+  collectionName: 'sdui_component_manifests';
+  info: {
+    displayName: 'SDUI Component Manifest';
+    pluralName: 'sdui-component-manifests';
+    singularName: 'sdui-component-manifest';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: false;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    deprecatedComponents: Schema.Attribute.JSON;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::sdui-component-manifest.sdui-component-manifest'
+    > &
+      Schema.Attribute.Private;
+    manifestVersion: Schema.Attribute.String & Schema.Attribute.Required;
+    notes: Schema.Attribute.RichText;
+    publishedAt: Schema.Attribute.DateTime;
+    supportedComponents: Schema.Attribute.JSON & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSduiScreenSduiScreen extends Struct.CollectionTypeSchema {
+  collectionName: 'sdui_screens';
+  info: {
+    displayName: 'SDUI Screen';
+    pluralName: 'sdui-screens';
+    singularName: 'sdui-screen';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    actions: Schema.Attribute.Component<'sdui.action', true>;
+    content: Schema.Attribute.DynamicZone<
+      [
+        'ui.text',
+        'ui.banner',
+        'ui.text-input',
+        'ui.radio-group',
+        'ui.checkbox-list',
+        'ui.tab-group',
+        'ui.item-list',
+        'ui.section-label',
+        'ui.camera-capture',
+        'ui.image-preview',
+        'ui.money-display',
+        'ui.account-selector',
+        'ui.review-card',
+        'ui.passcode-input',
+        'ui.hero',
+        'ui.dropdown',
+        'ui.dropdown-async',
+        'ui.radio-group-async',
+        'ui.checkbox-list-async',
+        'ui.cascading-select',
+      ]
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    journey_screen: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::journey-screen.journey-screen'
+    >;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::sdui-screen.sdui-screen'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    screenKey: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    screenType: Schema.Attribute.Enumeration<
+      ['journey', 'listing', 'standalone']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'journey'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSubmissionContractSubmissionContract
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'submission_contracts';
+  info: {
+    displayName: 'Submission Contract';
+    pluralName: 'submission-contracts';
+    singularName: 'submission-contract';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: false;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    endpoint: Schema.Attribute.String & Schema.Attribute.Required;
+    fields: Schema.Attribute.JSON & Schema.Attribute.Required;
+    key: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::submission-contract.submission-contract'
+    > &
+      Schema.Attribute.Private;
+    method: Schema.Attribute.Enumeration<['POST', 'PUT', 'PATCH']> &
+      Schema.Attribute.DefaultTo<'POST'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTagTag extends Struct.CollectionTypeSchema {
+  collectionName: 'tags';
+  info: {
+    displayName: 'Tag';
+    pluralName: 'tags';
+    singularName: 'tag';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: false;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    key: Schema.Attribute.UID &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'> &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1210,10 +1478,17 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::auth-setting.auth-setting': ApiAuthSettingAuthSetting;
-      'api::global-theme.global-theme': ApiGlobalThemeGlobalTheme;
-      'api::screen-v2.screen-v2': ApiScreenV2ScreenV2;
-      'api::screen.screen': ApiScreenScreen;
+      'api::app-global-config.app-global-config': ApiAppGlobalConfigAppGlobalConfig;
+      'api::journey-definition.journey-definition': ApiJourneyDefinitionJourneyDefinition;
+      'api::journey-screen.journey-screen': ApiJourneyScreenJourneyScreen;
+      'api::journey-session.journey-session': ApiJourneySessionJourneySession;
+      'api::journey-step.journey-step': ApiJourneyStepJourneyStep;
+      'api::market.market': ApiMarketMarket;
+      'api::rule-set.rule-set': ApiRuleSetRuleSet;
+      'api::sdui-component-manifest.sdui-component-manifest': ApiSduiComponentManifestSduiComponentManifest;
+      'api::sdui-screen.sdui-screen': ApiSduiScreenSduiScreen;
+      'api::submission-contract.submission-contract': ApiSubmissionContractSubmissionContract;
+      'api::tag.tag': ApiTagTag;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

@@ -1,0 +1,17 @@
+{
+  "kind": "collectionType",
+  "collectionName": "submission_contracts",
+  "info": {
+    "singularName": "submission-contract",
+    "pluralName": "submission-contracts",
+    "displayName": "Submission Contract"
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": { "i18n": { "localized": false } },
+  "attributes": {
+    "key": { "type": "string", "required": true, "unique": true },
+    "endpoint": { "type": "string", "required": true },
+    "method": { "type": "enumeration", "enum": ["POST", "PUT", "PATCH"], "default": "POST" },
+    "fields": { "type": "json", "required": true }
+  }
+}

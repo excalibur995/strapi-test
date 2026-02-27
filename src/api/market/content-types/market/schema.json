@@ -1,0 +1,14 @@
+{
+  "kind": "collectionType",
+  "collectionName": "markets",
+  "info": { "singularName": "market", "pluralName": "markets", "displayName": "Market" },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": { "i18n": { "localized": false } },
+  "attributes": {
+    "code": { "type": "string", "required": true, "unique": true },
+    "name": { "type": "string", "required": true },
+    "currency": { "type": "string", "required": true },
+    "locale": { "type": "string", "required": true },
+    "isActive": { "type": "boolean", "default": true }
+  }
+}

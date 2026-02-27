@@ -1,0 +1,17 @@
+{
+  "kind": "singleType",
+  "collectionName": "sdui_component_manifests",
+  "info": {
+    "singularName": "sdui-component-manifest",
+    "pluralName": "sdui-component-manifests",
+    "displayName": "SDUI Component Manifest"
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": { "i18n": { "localized": false } },
+  "attributes": {
+    "manifestVersion": { "type": "string", "required": true },
+    "supportedComponents": { "type": "json", "required": true },
+    "deprecatedComponents": { "type": "json" },
+    "notes": { "type": "richtext" }
+  }
+}

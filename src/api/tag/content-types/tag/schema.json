@@ -1,0 +1,11 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tags",
+  "info": { "singularName": "tag", "pluralName": "tags", "displayName": "Tag" },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": { "i18n": { "localized": false } },
+  "attributes": {
+    "key": { "type": "uid", "required": true, "unique": true },
+    "name": { "type": "string", "required": true }
+  }
+}

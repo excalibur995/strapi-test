@@ -1,0 +1,69 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sdui_screens",
+  "info": {
+    "singularName": "sdui-screen",
+    "pluralName": "sdui-screens",
+    "displayName": "SDUI Screen"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "screenKey": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "screenType": {
+      "type": "enumeration",
+      "required": true,
+      "default": "journey",
+      "enum": ["journey", "listing", "standalone"]
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    },
+    "content": {
+      "type": "dynamiczone",
+      "components": [
+        "ui.text",
+        "ui.banner",
+        "ui.text-input",
+        "ui.radio-group",
+        "ui.checkbox-list",
+        "ui.tab-group",
+        "ui.item-list",
+        "ui.section-label",
+        "ui.camera-capture",
+        "ui.image-preview",
+        "ui.money-display",
+        "ui.account-selector",
+        "ui.review-card",
+        "ui.passcode-input",
+        "ui.hero",
+        "ui.dropdown",
+        "ui.dropdown-async",
+        "ui.radio-group-async",
+        "ui.checkbox-list-async",
+        "ui.cascading-select"
+      ]
+    },
+    "actions": {
+      "type": "component",
+      "component": "sdui.action",
+      "repeatable": true
+    },
+    "journey_screen": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::journey-screen.journey-screen"
+    }
+  }
+}

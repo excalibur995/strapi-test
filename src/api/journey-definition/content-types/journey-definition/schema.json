@@ -1,0 +1,68 @@
+{
+  "kind": "collectionType",
+  "collectionName": "journey_definitions",
+  "info": {
+    "singularName": "journey-definition",
+    "pluralName": "journey-definitions",
+    "displayName": "Journey Definition"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "journeyKey": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "version": {
+      "type": "string",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "joruney_status": {
+      "type": "enumeration",
+      "required": false,
+      "default": "draft",
+      "enum": [
+        "draft",
+        "active",
+        "archived"
+      ]
+    },
+    "channel": {
+      "type": "enumeration",
+      "default": "NGA",
+      "enum": [
+        "NGA",
+        "WEB"
+      ]
+    },
+    "minAppVersion": {
+      "type": "string"
+    },
+    "maxAppVersion": {
+      "type": "string"
+    },
+    "markets": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::market.market"
+    },
+    "submissionContract": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::submission-contract.submission-contract"
+    },
+    "steps": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::journey-step.journey-step",
+      "mappedBy": "journey"
+    }
+  }
+}

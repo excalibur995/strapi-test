@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "journey_sessions",
+  "info": { "singularName": "journey-session", "pluralName": "journey-sessions", "displayName": "Journey Session" },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": { "i18n": { "localized": false } },
+  "attributes": {
+    "sessionId": { "type": "uid", "required": true, "unique": true },
+    "userId": { "type": "string", "required": true },
+    "journeyKey": { "type": "string", "required": true },
+    "currentScreenKey": { "type": "string" },
+    "status": { "type": "enumeration", "enum": ["active", "completed", "abandoned"], "default": "active" },
+    "journeyState": { "type": "json" },
+    "startedAt": { "type": "datetime" },
+    "updatedAt": { "type": "datetime" },
+    "expiresAt": { "type": "datetime" },
+    "journey": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::journey-definition.journey-definition"
+    }
+  }
+}

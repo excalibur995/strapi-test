@@ -1,0 +1,17 @@
+{
+  "kind": "singleType",
+  "collectionName": "app_global_configs",
+  "info": {
+    "singularName": "app-global-config",
+    "pluralName": "app-global-configs",
+    "displayName": "App Global Config"
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": { "i18n": { "localized": false } },
+  "attributes": {
+    "minSupportedAppVersion": { "type": "string" },
+    "sduiPayloadVersion": { "type": "string" },
+    "defaultLocale": { "type": "string", "default": "en" },
+    "defaultChannel": { "type": "enumeration", "enum": ["NGA", "WEB"], "default": "NGA" }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "kind": "collectionType",
+  "collectionName": "journey_steps",
+  "info": {
+    "singularName": "journey-step",
+    "pluralName": "journey-steps",
+    "displayName": "Journey Step"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "order": {
+      "type": "integer",
+      "required": true
+    },
+    "analyticsTag": {
+      "type": "string"
+    },
+    "headerTitle": {
+      "type": "string"
+    },
+    "headerVariant": {
+      "type": "enumeration",
+      "default": "default",
+      "enum": [
+        "default",
+        "transparent",
+        "none"
+      ]
+    },
+    "showBack": {
+      "type": "boolean",
+      "default": true
+    },
+    "showClose": {
+      "type": "boolean",
+      "default": true
+    },
+    "progressCurrent": {
+      "type": "integer"
+    },
+    "progressTotal": {
+      "type": "integer"
+    },
+    "journey": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::journey-definition.journey-definition",
+      "inversedBy": "steps"
+    },
+    "nextStepRule": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::rule-set.rule-set"
+    },
+    "screen": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::sdui-screen.sdui-screen"
+    },
+    "journey_screen": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::journey-screen.journey-screen"
+    }
+  }
+}
