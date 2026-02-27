@@ -398,7 +398,7 @@ export interface UiHero extends Struct.ComponentSchema {
     displayName: 'Hero';
   };
   attributes: {
-    illustration: Schema.Attribute.String & Schema.Attribute.Required;
+    illustration: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
     referenceLabel: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
